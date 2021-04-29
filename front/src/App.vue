@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <nav-bar></nav-bar>
-    <div id="nav">
+    <div id="nav" class="mt-2 mr-5">
       <router-link to="/login">Log in</router-link> |
       <router-link to="/signup">Sign Up</router-link>
     </div>
-    <router-view />
+    <b-container>
+      <router-view />
+    </b-container>
   </div>
 </template>
 
@@ -17,4 +19,9 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.nav {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>
