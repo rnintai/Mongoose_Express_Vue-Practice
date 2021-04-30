@@ -1,21 +1,17 @@
 <template>
   <div class="mt-4">
     <b-form @submit.prevent="onSubmit">
-      <b-form-group
-        id="input-group-1"
-        label="Email address:"
-        label-for="input-1"
-      >
+      <b-form-group id="input-group-1" label="Name" label-for="input-1">
         <b-form-input
           id="input-1"
           v-model="form.name"
-          type="name"
+          type="text"
           placeholder="Enter name"
           required
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group id="input-group-2" label="Name:" label-for="input-2">
+      <b-form-group id="input-group-2" label="E-Mail:" label-for="input-2">
         <b-form-input
           id="input-2"
           v-model="form.email"
@@ -37,14 +33,14 @@
 
       <b-form-group
         id="input-group-3"
-        label="password confirm:"
+        label="Confirm Password:"
         label-for="input-3"
       >
         <b-form-input
           id="input-3"
           v-model="form.password_confirm"
           type="password"
-          placeholder="Confirm Password"
+          placeholder="Confirm"
           required
         ></b-form-input>
       </b-form-group>
@@ -56,6 +52,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Signup",
   data: () => ({
@@ -67,7 +65,19 @@ export default {
     },
   }),
   methods: {
-    onSubmit() {},
+    async onSubmit() {
+      try {
+        await axios.post("http://localhost:3000/auth/signup", {
+          email: this.form.email,
+          password: this.form.password,
+          name: this.form.name,
+        });
+
+        this.$router.push({ path: "/login" });
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
 };
 </script>
