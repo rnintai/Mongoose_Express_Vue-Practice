@@ -26,21 +26,54 @@
       </b-form-group>
       <b-button type="submit" variant="primary" class="mr-2">Log In</b-button>
       <b-button type="reset" variant="danger">Reset</b-button>
+      >
     </b-form>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { mapState, mapMutations } from "vuex";
 export default {
   name: "Login",
   data: () => ({
     form: {
       email: null,
       password: null,
+      user_id: null,
     },
   }),
+  computed: {
+    ...mapState(["loggedIn"]),
+  },
   methods: {
-    onSubmit() {},
+    ...mapMutations(["logIn"]),
+    async onSubmit() {
+      await axios
+        .post("http://localhost:3000/auth/login", {
+          email: this.form.email,
+          password: this.form.password,
+        })
+        .then(async (res) => {
+          const token = res.data.token;
+          await axios
+            .get("http://localhost:3000/users", {
+              headers: {
+                authorization: `${token}`,
+              },
+            })
+            .then((res) => {
+              alert(res.data.msg);
+              this.$store.commit("logIn");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
+    },
   },
 };
 </script>

@@ -1,75 +1,37 @@
-import express from "express";
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import bodyParser from "body-parser";
-import { body, validationResult } from "express-validator";
-import bcryptjs from "bcryptjs";
-import cors from "cors";
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+// const bcryptjs = require("bcryptjs");
+const cors = require("cors");
+// const jwt = require("jsonwebtoken");
+const User = require("./models/user.js");
+const jwt = require("jsonwebtoken");
 
-import User from "./models/user.js";
+const loginRouter = require("./routes/auth/login.js");
+const signupRouter = require("./routes/auth/signup.js");
+const checkRouter = require("./routes/auth/check.js");
 
 dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-app.post(
-  "/auth/signup",
-  [
-    body("email")
-      .isEmail()
-      .withMessage("Please type valid email.")
-      .custom((value) => {
-        return User.findOne({ email: value }).then((userDoc) => {
-          if (userDoc) {
-            return Promise.reject("E-mail address already exists!");
-          }
-        });
-      }),
-    body("password")
-      .trim()
-      .isLength({ min: 6 })
-      .withMessage("Password must be greater than 6 characters."),
-    body("name").trim().not().isEmpty().withMessage("Name field is required."),
-  ],
-  async (req, res, next) => {
-    const errors = validationResult(req);
+app.use("/auth/login", loginRouter);
+app.use("/auth/signup", signupRouter);
+app.use("/auth/check", checkRouter);
 
-    if (!errors.isEmpty()) {
-      const error = new Error("Validation Failed.");
-      error.statusCode = 422;
-      error.data = errors.array();
-      return next(error);
-    }
-
-    const email = req.body.email;
-    const password = req.body.password;
-    const name = req.body.name;
-
-    // 유저 이메일 중복 체크
-
-    // 패스워드 해쉬화해서 저장
-    try {
-      const hashedPassword = await bcryptjs.hash(password, 12);
-
-      const user = new User({
-        email,
-        password: hashedPassword,
-        name,
-      });
-
-      const result = await user.save();
-      res.status(201).json({
-        message: "User Created",
-        userId: result._id,
-      });
-    } catch (err) {
-      if (err.statusCode !== 500) {
-        next(err);
-      }
-    }
-  }
-);
+app.get("/users", (req, res) => {
+  const decoded = jwt.verify(
+    req.headers.authorization,
+    `${process.env.secret}`
+  );
+  console.log(decoded);
+  res.status(202).json({
+    msg: "success",
+    token: req.headers.authorization,
+  });
+});
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
