@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-4">
-    <b-form @submit.prevent="onSubmit">
+  <div class="mt-4 d-flex flex-column align-items-center">
+    <b-form @submit.prevent="registerUser(form)">
       <validation-provider name="Name" rules="required" v-slot="{ errors }">
         <b-form-group id="input-group-1" label="Name" label-for="input-1">
           <b-form-input
@@ -27,7 +27,10 @@
             placeholder="Enter email"
             required
           ></b-form-input>
-          <b-button variant="primary" class="mr-2" @click="check_email"
+          <b-button
+            variant="primary"
+            class="mr-2"
+            @click="checkEmail(form.email)"
             >Check</b-button
           >
           <form-error-message :errors="errors" />
@@ -35,6 +38,7 @@
       </validation-provider>
 
       <validation-provider
+        vid="password"
         name="Password"
         rules="required|min:6"
         v-slot="{ errors }"
@@ -52,8 +56,8 @@
       </validation-provider>
 
       <validation-provider
-        name="Confirm Password"
-        rules="required|min:6"
+        name="Password"
+        rules="required|confirmed:password"
         v-slot="{ errors }"
       >
         <b-form-group
@@ -71,17 +75,22 @@
           <form-error-message :errors="errors" />
         </b-form-group>
       </validation-provider>
-
-      <b-button type="submit" variant="primary" class="mr-2">Sign Up</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <div class="d-flex justify-content-between">
+        <b-button type="submit" variant="primary" class="w-75"
+          >Sign Up</b-button
+        >
+        <b-button type="reset" variant="danger" class="w-auto">Reset</b-button>
+      </div>
     </b-form>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import { ValidationProvider } from "vee-validate";
 import FormErrorMessage from "../components/FormErrorMessage.vue";
+import { createNamespacedHelpers } from "vuex";
+
+const { mapActions } = createNamespacedHelpers("signup");
 
 export default {
   name: "Signup",
@@ -91,7 +100,6 @@ export default {
       email: null,
       password: null,
       password_confirm: null,
-      isChecked: false,
     },
   }),
   components: {
@@ -99,38 +107,15 @@ export default {
     FormErrorMessage,
   },
   methods: {
-    async onSubmit() {
-      if (!this.isChecked) {
-        alert("이메일 중복확인을 해주세요.");
-        return;
-      }
-      await axios
-        .post("http://localhost:3000/auth/signup", {
-          email: this.form.email,
-          password: this.form.password,
-          name: this.form.name,
-        })
-        .then(() => {
-          this.$router.push("/login");
-        })
-        .catch((err) => {
-          alert(err.response.data.data[0].msg);
-        });
-    },
-    async check_email() {
-      await axios
-        .post("http://localhost:3000/auth/check", {
-          email: this.form.email,
-        })
-        .then((res) => {
-          alert(res.data);
-        })
-        .catch((err) => {
-          alert(err.response.data.data[0].msg);
-        });
-    },
+    ...mapActions(["registerUser", "checkEmail"]),
   },
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.form-group {
+  width: 323.25px;
+  height: 94px;
+  // padding-bottom: 25px;
+}
+</style>

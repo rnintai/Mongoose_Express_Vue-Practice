@@ -8,7 +8,12 @@
       <b-collapse id="nav-collapse" is-nav>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-nav-item to="/login">Log In</b-nav-item>
+          <div v-if="!loggedIn">
+            <b-nav-item to="/login">Log In</b-nav-item>
+          </div>
+          <div v-else>
+            <b-nav-item @click="logOut">Log Out</b-nav-item>
+          </div>
           <b-nav-item to="/signup">Sign Up</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -17,7 +22,16 @@
 </template>
 
 <script>
-export default {};
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapMutations } = createNamespacedHelpers("login");
+export default {
+  computed: {
+    ...mapState(["loggedIn", "userInfo"]),
+  },
+  methods: {
+    ...mapMutations(["logOut"]),
+  },
+};
 </script>
 
 <style></style>

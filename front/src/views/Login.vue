@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4">
+  <div class="mt-4 d-flex flex-column align-items-center">
     <b-form @submit.prevent="onSubmit(form)">
       <b-form-group
         id="input-group-1"
@@ -24,15 +24,17 @@
           required
         ></b-form-input>
       </b-form-group>
-      <b-button type="submit" variant="primary" class="mr-2">Log In</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="submit" variant="primary" class="mr-2 w-100"
+        >Log In</b-button
       >
     </b-form>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { createNamespacedHelpers } from "vuex";
+const { mapState, mapMutations, mapActions } = createNamespacedHelpers("login");
+
 export default {
   name: "Login",
   data: () => ({
@@ -46,7 +48,7 @@ export default {
   },
   methods: {
     ...mapMutations(["logIn"]),
-    ...mapActions(["onSubmit"]),
+    ...mapActions(["onSubmit", "verifyUser"]),
   },
 };
 </script>
