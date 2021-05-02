@@ -1,14 +1,19 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <span v-if="loggedIn"
+      ><div>{{ userInfo.name }}님의 ToDoList</div></span
+    >
+    <span v-else>로그인이 필요한 서비스입니다.</span>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
 // @ is an alias to /src
-
 export default {
   name: "Home",
-  components: {},
+  computed: {
+    ...mapState(["loggedIn", "userInfo"]),
+  },
 };
 </script>

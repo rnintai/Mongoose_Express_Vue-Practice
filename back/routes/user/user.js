@@ -13,9 +13,10 @@ router.get("/", (req, res) => {
     next(error);
   } else {
     User.find({ email: decode.email }, async (err, docs) => {
+      // 문제점: userInfo에 hash화된 password가 넘어간다. -> 보안 문제
       res.status(202).json({
         msg: "success",
-        userinfo: docs[0],
+        userInfo: docs[0],
       });
     });
   }

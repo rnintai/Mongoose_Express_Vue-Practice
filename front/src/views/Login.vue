@@ -42,7 +42,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState(["loginObj", "loggedIn"]),
+    ...mapState(["loggedIn"]),
   },
   methods: {
     ...mapMutations(["logIn"]),
