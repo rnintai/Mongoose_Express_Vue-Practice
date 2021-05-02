@@ -1,6 +1,6 @@
 <template>
   <div class="mt-4">
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="onSubmit(form)">
       <b-form-group
         id="input-group-1"
         label="Email address:"
@@ -32,48 +32,21 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   name: "Login",
   data: () => ({
     form: {
       email: null,
       password: null,
-      user_id: null,
     },
   }),
   computed: {
-    ...mapState(["loggedIn"]),
+    ...mapState(["loginObj", "loggedIn"]),
   },
   methods: {
     ...mapMutations(["logIn"]),
-    async onSubmit() {
-      await axios
-        .post("http://localhost:3000/auth/login", {
-          email: this.form.email,
-          password: this.form.password,
-        })
-        .then(async (res) => {
-          const token = res.data.token;
-          await axios
-            .get("http://localhost:3000/users", {
-              headers: {
-                authorization: `${token}`,
-              },
-            })
-            .then((res) => {
-              alert(res.data.msg);
-              this.$store.commit("logIn");
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          alert(err.response.data.message);
-        });
-    },
+    ...mapActions(["onSubmit"]),
   },
 };
 </script>

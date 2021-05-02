@@ -34,7 +34,7 @@ const loginProcess = (req, res, next) => {
             expiresIn: "30m",
           }
         );
-        res.cookie("user", token);
+        // res.cookie("user", token);
         res.status(201).json({
           message: "Login Success!",
           userId: docs[0]._id,
