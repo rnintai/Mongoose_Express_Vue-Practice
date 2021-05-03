@@ -32,7 +32,7 @@ const mutations = {
 };
 
 const actions = {
-  async onSubmit({ commit, dispatch }, loginObj) {
+  async onSubmit({ commit }, loginObj) {
     await axios
       .post("http://localhost:3000/auth/login", {
         email: loginObj.email,
@@ -41,7 +41,8 @@ const actions = {
       .then(async (res) => {
         let token = res.data.token;
         localStorage.setItem("access_token", token);
-        dispatch("verifyUser", null, { root: true });
+        router.replace("/");
+        router.go();
       })
       .catch((err) => {
         alert(err.response.data.message);
@@ -49,7 +50,6 @@ const actions = {
       });
   },
   verifyUser: {
-    root: true,
     async handler({ commit }) {
       const token = localStorage.getItem("access_token");
       await axios
@@ -60,7 +60,7 @@ const actions = {
         })
         .then((response) => {
           commit("loginSuccess", response.data.userInfo);
-          router.push("/");
+          // router.push("/");
         })
         .catch((error) => {
           console.log(error);

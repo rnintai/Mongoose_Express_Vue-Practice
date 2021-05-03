@@ -10,4 +10,13 @@ export default new Vuex.Store({
     login,
     signup,
   },
+  state: {
+    loggedIn: false,
+    loginError: false,
+    userInfo: {
+      email: null,
+      name: null,
+      post: null,
+    },
+  },
 });

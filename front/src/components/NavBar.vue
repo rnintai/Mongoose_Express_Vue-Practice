@@ -14,7 +14,7 @@
           <div v-else>
             <b-nav-item @click="logOut">Log Out</b-nav-item>
           </div>
-          <b-nav-item to="/signup">Sign Up</b-nav-item>
+          <b-nav-item v-if="!loggedIn" to="/signup">Sign Up</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
