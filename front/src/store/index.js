@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import axios from "axios";
 import login from "./modules/login.js";
 import signup from "./modules/signup.js";
+import addpost from "./modules/post/addpost.js";
 import router from "@/router/index.js";
 
 Vue.use(Vuex);
@@ -58,5 +59,6 @@ export default new Vuex.Store({
   modules: {
     login,
     signup,
+    addpost,
   },
 });
