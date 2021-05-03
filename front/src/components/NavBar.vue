@@ -22,8 +22,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations } = createNamespacedHelpers("login");
+import { mapState, mapMutations } from "vuex";
 export default {
   computed: {
     ...mapState(["loggedIn", "userInfo"]),

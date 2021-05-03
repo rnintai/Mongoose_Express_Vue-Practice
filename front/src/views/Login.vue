@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapState, mapMutations, mapActions } = createNamespacedHelpers("login");
+import { mapState, mapActions } from "vuex";
+// const { mapState, mapMutations, mapActions } = createNamespacedHelpers("login");
 
 export default {
   name: "Login",
@@ -47,8 +47,7 @@ export default {
     ...mapState(["loggedIn"]),
   },
   methods: {
-    ...mapMutations(["logIn"]),
-    ...mapActions(["onSubmit", "verifyUser"]),
+    ...mapActions("login", ["onSubmit"]),
   },
 };
 </script>

@@ -8,8 +8,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from "vuex";
-const { mapState } = createNamespacedHelpers("login");
+import { mapState } from "vuex";
 // @ is an alias to /src
 export default {
   name: "Home",
