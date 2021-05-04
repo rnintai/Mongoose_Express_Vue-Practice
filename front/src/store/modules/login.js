@@ -8,7 +8,7 @@ const actions = {
         email: loginObj.email,
         password: loginObj.password,
       })
-      .then(async (res) => {
+      .then((res) => {
         let token = res.data.token;
         localStorage.setItem("access_token", token);
         dispatch("verifyUser", null, { root: true });

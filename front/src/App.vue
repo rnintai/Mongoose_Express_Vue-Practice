@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NavBar from "./components/NavBar.vue";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   components: { NavBar },
@@ -16,8 +16,10 @@ export default {
 </script>
 
 <style lang="scss">
-.nav {
-  display: flex;
-  justify-content: flex-end;
+#app {
+  .nav {
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 </style>

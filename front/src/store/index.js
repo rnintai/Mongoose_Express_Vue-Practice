@@ -10,22 +10,21 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    loggedIn: false,
-    loginError: false,
     userInfo: {
       email: null,
       name: null,
       post: null,
     },
+    loggedIn: false,
+    loginError: false,
+    modalOn: false,
   },
   mutations: {
     loginSuccess(state, payload) {
       console.log(state);
       state.loggedIn = true;
       state.loginError = false;
-      state.userInfo.email = payload.email;
-      state.userInfo.name = payload.name;
-      state.userInfo.post = payload.post;
+      state.userInfo = payload;
     },
     loginFail(state) {
       state.loggedIn = false;
@@ -37,6 +36,12 @@ export default new Vuex.Store({
       state.userInfo = null;
       localStorage.removeItem("access_token");
     },
+    openModal(state) {
+      state.modalOn = true;
+    },
+    closeModal(state) {
+      state.modalOn = false;
+    },
   },
   actions: {
     async verifyUser({ commit }) {
@@ -47,12 +52,12 @@ export default new Vuex.Store({
             authorization: `${token}`,
           },
         })
-        .then((response) => {
-          commit("loginSuccess", response.data.userInfo);
-          router.push("/");
+        .then((res) => {
+          commit("loginSuccess", res.data.userInfo);
+          router.replace("/");
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
     },
   },

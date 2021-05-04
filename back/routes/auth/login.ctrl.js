@@ -34,12 +34,10 @@ const loginProcess = (req, res, next) => {
             expiresIn: "30m",
           }
         );
-        // res.cookie("user", token);
         res.status(201).json({
           message: "Login Success!",
           userId: docs[0]._id,
           token,
-          // name: docs[0].name,
         });
       } else {
         const error = new Error("패스워드가 일치하지 않습니다.");
