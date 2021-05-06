@@ -16,6 +16,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "assets/css/reset.css";
+@import "assets/css/main.scss";
 #app {
   .nav {
     display: flex;

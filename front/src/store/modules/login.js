@@ -19,23 +19,6 @@ const actions = {
         commit("loginFail", null, { root: true });
       });
   },
-  // async verifyUser({ commit }) {
-  //   const token = localStorage.getItem("access_token");
-  //   await axios
-  //     .get("http://localhost:3000/user", {
-  //       headers: {
-  //         authorization: `${token}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       alert(response.data.msg);
-  //       commit("loginSuccess", response.data.userInfo);
-  //       router.push("/");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // },
 };
 
 export default {

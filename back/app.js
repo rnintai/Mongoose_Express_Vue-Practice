@@ -8,7 +8,7 @@ const loginRouter = require("./routes/auth/login.js");
 const signupRouter = require("./routes/auth/signup.js");
 const checkRouter = require("./routes/auth/check.js");
 const userRouter = require("./routes/user/user.js");
-const addpostRouter = require("./routes/post/addpost.js");
+const postRouter = require("./routes/post/postCRUD.js");
 
 dotenv.config();
 const app = express();
@@ -19,7 +19,7 @@ app.use("/auth/login", loginRouter);
 app.use("/auth/signup", signupRouter);
 app.use("/auth/check", checkRouter);
 app.use("/user", userRouter);
-app.use("/post/addpost", addpostRouter);
+app.use("/post", postRouter);
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;

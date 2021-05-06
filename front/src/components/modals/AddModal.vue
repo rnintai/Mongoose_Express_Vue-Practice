@@ -1,5 +1,5 @@
 <template>
-  <div class="Modal">
+  <div class="AddModal">
     <h5>추가하기</h5>
     <div class="modal-title">
       <label for="title">제목</label>
@@ -20,7 +20,7 @@
 import { mapMutations, mapActions } from "vuex";
 
 export default {
-  name: "Modal",
+  name: "AddModal",
   data: () => ({
     post: {
       title: null,
@@ -29,13 +29,13 @@ export default {
   }),
   methods: {
     ...mapMutations(["closeModal"]),
-    ...mapActions("addpost", ["addPost"]),
+    ...mapActions("managePost", ["addPost"]),
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.Modal {
+.AddModal {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
